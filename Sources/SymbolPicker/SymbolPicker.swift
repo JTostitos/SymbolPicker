@@ -18,9 +18,20 @@ typealias PlatformColor = UIColor
 public struct SymbolPicker: View {
 
     // MARK: - Static consts
-
-    private static let symbols: [String] = {
-        guard let path = Bundle.module.path(forResource: "sfsymbols", ofType: "txt"),
+    
+    private static let symbols15: [String] = {
+        guard let path = Bundle.module.path(forResource: "sfsymbols15", ofType: "txt"),
+              let content = try? String(contentsOfFile: path)
+        else {
+            return []
+        }
+        return content
+            .split(separator: "\n")
+            .map { String($0) }
+    }()
+    
+    private static let symbols16: [String] = {
+        guard let path = Bundle.module.path(forResource: "sfsymbols16", ofType: "txt"),
               let content = try? String(contentsOfFile: path)
         else {
             return []
@@ -139,36 +150,70 @@ public struct SymbolPicker: View {
     private var symbolGrid: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: Self.gridDimension, maximum: Self.gridDimension))]) {
-                ForEach(Self.symbols.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
-                    Button(action: {
-                        symbol = thisSymbol
-
-                        // Dismiss sheet. macOS will have done button
-                        #if !os(macOS)
-                        presentationMode.wrappedValue.dismiss()
-                        #endif
-                    }) {
-                        if thisSymbol == symbol {
-                            Image(systemName: thisSymbol)
-                                .font(.system(size: Self.symbolSize))
-                                .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
-                            #if !os(tvOS)
-                                .background(Color.accentColor)
-                            #else
-                                .background(Color.gray.opacity(0.3))
-                            #endif
-                                .cornerRadius(Self.symbolCornerRadius)
-                                .foregroundColor(.white)
-                        } else {
-                            Image(systemName: thisSymbol)
-                                .font(.system(size: Self.symbolSize))
-                                .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
-                                .background(Self.systemBackground)
-                                .cornerRadius(Self.symbolCornerRadius)
-                                .foregroundColor(.primary)
+                if #available(iOS 16.0, *) {
+                    ForEach(Self.symbols16.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
+                        Button(action: {
+                            symbol = thisSymbol
+                            
+                            // Dismiss sheet. macOS will have done button
+#if !os(macOS)
+                            presentationMode.wrappedValue.dismiss()
+#endif
+                        }) {
+                            if thisSymbol == symbol {
+                                Image(systemName: thisSymbol)
+                                    .font(.system(size: Self.symbolSize))
+                                    .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
+#if !os(tvOS)
+                                    .background(Color.accentColor)
+#else
+                                    .background(Color.gray.opacity(0.3))
+#endif
+                                    .cornerRadius(Self.symbolCornerRadius)
+                                    .foregroundColor(.white)
+                            } else {
+                                Image(systemName: thisSymbol)
+                                    .font(.system(size: Self.symbolSize))
+                                    .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
+                                    .background(Self.systemBackground)
+                                    .cornerRadius(Self.symbolCornerRadius)
+                                    .foregroundColor(.primary)
+                            }
                         }
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    .buttonStyle(PlainButtonStyle())
+                } else {
+                    ForEach(Self.symbols15.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
+                        Button(action: {
+                            symbol = thisSymbol
+                            
+                            // Dismiss sheet. macOS will have done button
+#if !os(macOS)
+                            presentationMode.wrappedValue.dismiss()
+#endif
+                        }) {
+                            if thisSymbol == symbol {
+                                Image(systemName: thisSymbol)
+                                    .font(.system(size: Self.symbolSize))
+                                    .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
+#if !os(tvOS)
+                                    .background(Color.accentColor)
+#else
+                                    .background(Color.gray.opacity(0.3))
+#endif
+                                    .cornerRadius(Self.symbolCornerRadius)
+                                    .foregroundColor(.white)
+                            } else {
+                                Image(systemName: thisSymbol)
+                                    .font(.system(size: Self.symbolSize))
+                                    .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
+                                    .background(Self.systemBackground)
+                                    .cornerRadius(Self.symbolCornerRadius)
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
             }
         }
