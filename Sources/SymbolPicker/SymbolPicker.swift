@@ -175,7 +175,9 @@ public struct SymbolPicker: View {
                                 Image(systemName: thisSymbol)
                                     .font(.system(size: Self.symbolSize))
                                     .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
-                                    .background(Self.systemBackground)
+                                //Background that appears behind icons. .systembackground makes no background appear in dark mode
+//                                    .background(Self.systemBackground)
+                                    .background(Color(uiColor: .secondarySystemFill))
                                     .cornerRadius(Self.symbolCornerRadius)
                                     .foregroundColor(.primary)
                             }
