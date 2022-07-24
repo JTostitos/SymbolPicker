@@ -209,7 +209,8 @@ public struct SymbolPicker: View {
                                 Image(systemName: thisSymbol)
                                     .font(.system(size: Self.symbolSize))
                                     .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
-                                    .background(Self.systemBackground)
+//                                    .background(Self.systemBackground)
+                                    .background(Color(uiColor: .secondarySystemFill))
                                     .cornerRadius(Self.symbolCornerRadius)
                                     .foregroundColor(.primary)
                             }
