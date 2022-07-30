@@ -150,41 +150,6 @@ public struct SymbolPicker: View {
     private var symbolGrid: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: Self.gridDimension, maximum: Self.gridDimension))]) {
-                if #available(iOS 16.0, *) {
-                    ForEach(Self.symbols16.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
-                        Button(action: {
-                            symbol = thisSymbol
-                            
-                            // Dismiss sheet. macOS will have done button
-#if !os(macOS)
-                            presentationMode.wrappedValue.dismiss()
-#endif
-                        }) {
-                            if thisSymbol == symbol {
-                                Image(systemName: thisSymbol)
-                                    .font(.system(size: Self.symbolSize))
-                                    .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
-#if !os(tvOS)
-                                    .background(Color.accentColor)
-#else
-                                    .background(Color.gray.opacity(0.3))
-#endif
-                                    .cornerRadius(Self.symbolCornerRadius)
-                                    .foregroundColor(.white)
-                            } else {
-                                Image(systemName: thisSymbol)
-                                    .font(.system(size: Self.symbolSize))
-                                    .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
-                                //Background that appears behind icons. .systembackground makes no background appear in dark mode
-//                                    .background(Self.systemBackground)
-                                    .background(Color(uiColor: .secondarySystemFill))
-                                    .cornerRadius(Self.symbolCornerRadius)
-                                    .foregroundColor(.primary)
-                            }
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                } else {
                     ForEach(Self.symbols15.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
                         Button(action: {
                             symbol = thisSymbol
@@ -217,7 +182,6 @@ public struct SymbolPicker: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
-                }
             }
         }
     }
