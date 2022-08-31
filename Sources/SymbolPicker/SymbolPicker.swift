@@ -77,27 +77,6 @@ public struct SymbolPicker: View {
         #endif
     }
 
-//    private static var systemGray5: Color {
-//        dynamicColor(
-//            light: .init(red: 0.9, green: 0.9, blue: 0.92, alpha: 1.0),
-//            dark: .init(red: 0.17, green: 0.17, blue: 0.18, alpha: 1.0)
-//        )
-//    }
-
-//    private static var systemBackground: Color {
-//        dynamicColor(
-//            light: .init(red: 1, green: 1, blue: 1, alpha: 1.0),
-//            dark: .init(red: 0, green: 0, blue: 0, alpha: 1.0)
-//        )
-//    }
-
-//    private static var secondarySystemBackground: Color {
-//        dynamicColor(
-//            light: .init(red: 0.95, green: 0.95, blue: 1, alpha: 1.0),
-//            dark: .init(red: 0, green: 0, blue: 0, alpha: 1.0)
-//        )
-//    }
-
     // MARK: - Properties
 
     @Binding public var symbol: String
@@ -192,6 +171,7 @@ public struct SymbolPicker: View {
                 searchableSymbolGrid
                     #if os(iOS)
                     .navigationTitle("Symbols")
+                    .navigationBarTitleDisplayMode(.large)
                     #endif
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
