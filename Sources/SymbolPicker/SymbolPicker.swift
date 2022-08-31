@@ -197,10 +197,14 @@ public struct SymbolPicker: View {
                 .navigationBarTitleDisplayMode(.inline)
                 #endif
                 .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button(LocalizedString("cancel")) {
-                            presentationMode.wrappedValue.dismiss()
-                        }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.accentColor)
+                            .font(.title2)
+                            .hoverEffect(.lift)
+                            .onTapGesture {
+                                presentationMode.wrappedValue.dismiss()
+                            }
                     }
                 }
             }
