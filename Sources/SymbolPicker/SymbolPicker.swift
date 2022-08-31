@@ -77,26 +77,26 @@ public struct SymbolPicker: View {
         #endif
     }
 
-    private static var systemGray5: Color {
-        dynamicColor(
-            light: .init(red: 0.9, green: 0.9, blue: 0.92, alpha: 1.0),
-            dark: .init(red: 0.17, green: 0.17, blue: 0.18, alpha: 1.0)
-        )
-    }
+//    private static var systemGray5: Color {
+//        dynamicColor(
+//            light: .init(red: 0.9, green: 0.9, blue: 0.92, alpha: 1.0),
+//            dark: .init(red: 0.17, green: 0.17, blue: 0.18, alpha: 1.0)
+//        )
+//    }
 
-    private static var systemBackground: Color {
-        dynamicColor(
-            light: .init(red: 1, green: 1, blue: 1, alpha: 1.0),
-            dark: .init(red: 0, green: 0, blue: 0, alpha: 1.0)
-        )
-    }
+//    private static var systemBackground: Color {
+//        dynamicColor(
+//            light: .init(red: 1, green: 1, blue: 1, alpha: 1.0),
+//            dark: .init(red: 0, green: 0, blue: 0, alpha: 1.0)
+//        )
+//    }
 
-    private static var secondarySystemBackground: Color {
-        dynamicColor(
-            light: .init(red: 0.95, green: 0.95, blue: 1, alpha: 1.0),
-            dark: .init(red: 0, green: 0, blue: 0, alpha: 1.0)
-        )
-    }
+//    private static var secondarySystemBackground: Color {
+//        dynamicColor(
+//            light: .init(red: 0.95, green: 0.95, blue: 1, alpha: 1.0),
+//            dark: .init(red: 0, green: 0, blue: 0, alpha: 1.0)
+//        )
+//    }
 
     // MARK: - Properties
 
@@ -123,7 +123,7 @@ public struct SymbolPicker: View {
                     TextField(LocalizedString("search_placeholder"), text: $searchText)
                         .padding(8)
                         .padding(.horizontal, 8)
-                        .background(Self.systemGray5)
+                        .background(Color(uiColor: .systemGray5))
                         .cornerRadius(8.0)
                         .padding(.horizontal, 16.0)
                         .autocapitalization(.none)
@@ -190,7 +190,7 @@ public struct SymbolPicker: View {
         #if !os(macOS)
             NavigationView {
                 ZStack {
-                    Self.secondarySystemBackground.edgesIgnoringSafeArea(.all)
+//                    Self.secondarySystemBackground.edgesIgnoringSafeArea(.all)
                     searchableSymbolGrid
                 }
                 #if os(iOS)
