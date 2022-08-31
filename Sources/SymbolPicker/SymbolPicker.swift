@@ -189,24 +189,22 @@ public struct SymbolPicker: View {
     public var body: some View {
         #if !os(macOS)
             NavigationView {
-                ZStack {
-//                    Self.secondarySystemBackground.edgesIgnoringSafeArea(.all)
-                    searchableSymbolGrid
-                }
-                #if os(iOS)
-                .navigationBarTitleDisplayMode(.inline)
-                #endif
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.accentColor)
-                            .font(.title2)
-                            .hoverEffect(.lift)
-                            .onTapGesture {
-                                presentationMode.wrappedValue.dismiss()
-                            }
+                searchableSymbolGrid
+                    #if os(iOS)
+                    .navigationTitle("Symbols")
+                    .navigationBarTitleDisplayMode(.inline)
+                    #endif
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.accentColor)
+                                .font(.title2)
+                                .hoverEffect(.lift)
+                                .onTapGesture {
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                        }
                     }
-                }
             }
             .navigationViewStyle(StackNavigationViewStyle())
         #else
