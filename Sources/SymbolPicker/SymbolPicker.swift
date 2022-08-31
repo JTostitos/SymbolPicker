@@ -94,31 +94,17 @@ public struct SymbolPicker: View {
     @ViewBuilder
     private var searchableSymbolGrid: some View {
         #if os(iOS)
-            if #available(iOS 15.0, *) {
-                symbolGrid
-                    .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-            } else {
-                VStack {
-                    TextField(LocalizedString("search_placeholder"), text: $searchText)
-                        .padding(8)
-                        .padding(.horizontal, 8)
-                        .background(Color(uiColor: .systemGray5))
-                        .cornerRadius(8.0)
-                        .padding(.horizontal, 16.0)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                    symbolGrid
-                        .padding()
-                }
-            }
+        symbolGrid
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         #elseif os(tvOS)
             symbolGrid
                 .searchable(text: $searchText, placement: .automatic)
         #elseif os(macOS)
             VStack(spacing: 10) {
-                TextField(LocalizedString("search_placeholder"), text: $searchText)
-                    .disableAutocorrection(true)
+//                TextField(LocalizedString("search_placeholder"), text: $searchText)
+//                    .disableAutocorrection(true)
                 symbolGrid
+                    .searchable(text: $searchText, placement: .toolbar)
             }
         #else
         symbolGrid
@@ -129,7 +115,8 @@ public struct SymbolPicker: View {
     private var symbolGrid: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: Self.gridDimension, maximum: Self.gridDimension))]) {
-                    ForEach(Self.symbols15.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
+                ForEach(Self.symbols15.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
+                LazyVStack {
                         Button(action: {
                             symbol = thisSymbol
                             
@@ -154,13 +141,16 @@ public struct SymbolPicker: View {
                                     .font(.system(size: Self.symbolSize))
                                     .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
 //                                    .background(Self.systemBackground)
+                                #if os(iOS)
                                     .background(Color(uiColor: .secondarySystemFill))
+                                #endif
                                     .cornerRadius(Self.symbolCornerRadius)
                                     .foregroundColor(.primary)
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
+                }
             }
         }
     }
@@ -214,32 +204,6 @@ public struct SymbolPicker: View {
             .frame(width: 520, height: 300, alignment: .center)
         #endif
     }
-
-    // MARK: - Private helpers
-
-    private static func dynamicColor(light: PlatformColor, dark: PlatformColor) -> Color {
-        #if os(iOS)
-            let color = PlatformColor { $0.userInterfaceStyle == .dark ? dark : light }
-            if #available(iOS 15.0, *) {
-                return Color(uiColor: color)
-            } else {
-                return Color(color)
-            }
-        #elseif os(tvOS)
-            let color = PlatformColor { $0.userInterfaceStyle == .dark ? dark : light }
-            return Color(uiColor: color)
-        #elseif os(macOS)
-            let color = PlatformColor(name: nil) { $0.name == .darkAqua ? dark : light }
-            if #available(macOS 12.0, *) {
-                return Color(nsColor: color)
-            } else {
-                return Color(color)
-            }
-        #else
-            return Color(uiColor: dark)
-        #endif
-    }
-
 }
 
 private func LocalizedString(_ key: String) -> String {
