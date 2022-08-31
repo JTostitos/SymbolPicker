@@ -171,7 +171,7 @@ public struct SymbolPicker: View {
                 searchableSymbolGrid
                     #if os(iOS)
                     .navigationTitle("Symbols")
-                    .navigationBarTitleDisplayMode(.large)
+                    .navigationBarTitleDisplayMode(.inline)
                     #endif
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
