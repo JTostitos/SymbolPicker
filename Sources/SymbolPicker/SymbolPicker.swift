@@ -115,40 +115,79 @@ public struct SymbolPicker: View {
     private var symbolGrid: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: Self.gridDimension, maximum: Self.gridDimension))]) {
-                ForEach(Self.symbols15.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
-                LazyVStack {
-                        Button(action: {
-                            symbol = thisSymbol
-                            
-                            // Dismiss sheet. macOS will have done button
+                if #available(iOS 16, *) {
+                    ForEach(Self.symbols16.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
+                        LazyVStack {
+                            Button(action: {
+                                symbol = thisSymbol
+                                
+                                // Dismiss sheet. macOS will have done button
 #if !os(macOS)
-                            presentationMode.wrappedValue.dismiss()
+                                presentationMode.wrappedValue.dismiss()
 #endif
-                        }) {
-                            if thisSymbol == symbol {
-                                Image(systemName: thisSymbol)
-                                    .font(.system(size: Self.symbolSize))
-                                    .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
+                            }) {
+                                if thisSymbol == symbol {
+                                    Image(systemName: thisSymbol)
+                                        .font(.system(size: Self.symbolSize))
+                                        .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
 #if !os(tvOS)
-                                    .background(Color.accentColor)
+                                        .background(Color.accentColor)
 #else
-                                    .background(Color.gray.opacity(0.3))
+                                        .background(Color.gray.opacity(0.3))
 #endif
-                                    .cornerRadius(Self.symbolCornerRadius)
-                                    .foregroundColor(.white)
-                            } else {
-                                Image(systemName: thisSymbol)
-                                    .font(.system(size: Self.symbolSize))
-                                    .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
-//                                    .background(Self.systemBackground)
-                                #if os(iOS)
-                                    .background(Color(uiColor: .secondarySystemFill))
-                                #endif
-                                    .cornerRadius(Self.symbolCornerRadius)
-                                    .foregroundColor(.primary)
+                                        .cornerRadius(Self.symbolCornerRadius)
+                                        .foregroundColor(.white)
+                                } else {
+                                    Image(systemName: thisSymbol)
+                                        .font(.system(size: Self.symbolSize))
+                                        .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
+                                    //                                    .background(Self.systemBackground)
+#if os(iOS)
+                                        .background(Color(uiColor: .secondarySystemFill))
+#endif
+                                        .cornerRadius(Self.symbolCornerRadius)
+                                        .foregroundColor(.primary)
+                                }
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .buttonStyle(PlainButtonStyle())
+                    }
+                } else {
+                    ForEach(Self.symbols15.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { thisSymbol in
+                    LazyVStack {
+                            Button(action: {
+                                symbol = thisSymbol
+                                
+                                // Dismiss sheet. macOS will have done button
+    #if !os(macOS)
+                                presentationMode.wrappedValue.dismiss()
+    #endif
+                            }) {
+                                if thisSymbol == symbol {
+                                    Image(systemName: thisSymbol)
+                                        .font(.system(size: Self.symbolSize))
+                                        .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
+    #if !os(tvOS)
+                                        .background(Color.accentColor)
+    #else
+                                        .background(Color.gray.opacity(0.3))
+    #endif
+                                        .cornerRadius(Self.symbolCornerRadius)
+                                        .foregroundColor(.white)
+                                } else {
+                                    Image(systemName: thisSymbol)
+                                        .font(.system(size: Self.symbolSize))
+                                        .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
+    //                                    .background(Self.systemBackground)
+                                    #if os(iOS)
+                                        .background(Color(uiColor: .secondarySystemFill))
+                                    #endif
+                                        .cornerRadius(Self.symbolCornerRadius)
+                                        .foregroundColor(.primary)
+                                }
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
                     }
                 }
             }
